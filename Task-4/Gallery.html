@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .gallery img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+    }
+
+    .pagination button {
+      padding: 5px 10px;
+      margin: 0 5px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .pagination button.active {
+      background-color: #45a049;
+    }
+
+    .filter {
+      margin-bottom: 20px;
+    }
+
+    .filter label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+  </style>
+  <script>
+    // Images data (replace with your own image URLs)
+    var images = [
+      "image1.jpg",
+      "image2.jpg",
+      "image3.jpg",
+      "image4.jpg",
+      "image5.jpg",
+      "image6.jpg",
+      "image7.jpg",
+      "image8.jpg",
+      "image9.jpg",
+      "image10.jpg"
+    ];
+
+    var currentPage = 1;
+    var imagesPerPage = 6;
+
+    // Display initial images
+    function displayImages() {
+      var gallery = document.getElementById("gallery");
+      gallery.innerHTML = "";
+
+      var start = (currentPage - 1) * imagesPerPage;
+      var end = start + imagesPerPage;
+      var paginatedImages = images.slice(start, end);
+
+      for (var i = 0; i < paginatedImages.length; i++) {
+        var img = document.createElement("img");
+        img.src = paginatedImages[i];
+        gallery.appendChild(img);
+      }
+    }
+
+    // Display pagination
+    function displayPagination() {
+      var totalPages = Math.ceil(images.length / imagesPerPage);
+      var pagination = document.getElementById("pagination");
+      pagination.innerHTML = "";
+
+      for (var i = 1; i <= totalPages; i++) {
+        var button = document.createElement("button");
+        button.innerHTML = i;
+        button.addEventListener("click", function() {
+          currentPage = parseInt(this.innerHTML);
+          displayImages();
+          highlightCurrentPage();
+        });
+        pagination.appendChild(button);
+      }
+
+      highlightCurrentPage();
+    }
+
+    // Highlight current page button
+    function highlightCurrentPage() {
+      var buttons = document.querySelectorAll(".pagination button");
+      buttons.forEach(function(button) {
+        button.classList.remove("active");
+      });
+      buttons[currentPage - 1].classList.add("active");
+    }
+
+    // Filter images by category
+    function filterImages() {
+      var filterValue = document.querySelector('input[name="filter"]:checked').value;
+      if (filterValue === "all") {
+        displayImages();
+      } else {
+        var filteredImages = images.filter(function(image) {
+          return image.includes(filterValue);
+        });
+        currentPage = 1;
+        images = filteredImages;
+        displayImages();
+        displayPagination();
+      }
+    }
+
+    // Initial setup
+    function initializeGallery() {
+      displayImages();
+      displayPagination();
+    }
+
+    // Event listener for filter change
+    document.querySelectorAll('input[name="filter"]').forEach(function(filter) {
+      filter.addEventListener("change", filterImages);
+    });
+
+    // Initialize gallery
+    document.addEventListener("DOMContentLoaded", initializeGallery);
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="filter">
+      <label>Filter:</label>
+      <input type="radio" name="filter" value="all" checked> All
+      <input type="radio" name="filter" value="nature"> Nature
+      <input type="radio" name="filter" value="animals"> Animals
+      <input type="radio" name="filter" value="food"> Food
+    </div>
+    <div class="gallery" id="gallery"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+</body>
+</html>

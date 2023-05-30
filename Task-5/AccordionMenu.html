@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Accordion Menu</title>
+  <style>
+    .accordion {
+      background-color: #f2f2f2;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .accordion .accordion-header {
+      background-color: #ddd;
+      color: #333;
+      cursor: pointer;
+      padding: 10px;
+      font-weight: bold;
+      border: none;
+      outline: none;
+      transition: background-color 0.3s;
+    }
+
+    .accordion .accordion-header.active {
+      background-color: #aaa;
+      color: #fff;
+    }
+
+    .accordion .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s;
+    }
+
+    .accordion .accordion-content p {
+      padding: 10px;
+      margin: 0;
+    }
+  </style>
+  <script>
+    // Toggle accordion content
+    function toggleAccordion(index) {
+      const accordionHeader = document.getElementsByClassName('accordion-header');
+      const accordionContent = document.getElementsByClassName('accordion-content');
+
+      // Toggle active class on clicked header
+      accordionHeader[index].classList.toggle('active');
+
+      // Toggle max-height on accordion content
+      if (accordionContent[index].style.maxHeight) {
+        accordionContent[index].style.maxHeight = null;
+      } else {
+        accordionContent[index].style.maxHeight = accordionContent[index].scrollHeight + 'px';
+      }
+    }
+
+    // Add event listeners to accordion headers
+    function addEventListeners() {
+      const accordionHeader = document.getElementsByClassName('accordion-header');
+      for (let i = 0; i < accordionHeader.length; i++) {
+        accordionHeader[i].addEventListener('click', function () {
+          toggleAccordion(i);
+        });
+      }
+    }
+
+    // Initialize accordion
+    document.addEventListener('DOMContentLoaded', function () {
+      addEventListeners();
+    });
+  </script>
+</head>
+<body>
+  <div class="accordion">
+    <button class="accordion-header">Section 1</button>
+    <div class="accordion-content">
+      <p>
+        As with most essays, the three-paragraph essay has three parts: an introduction, a body, and a conclusion. Yet with this type of essay–unlike its five-paragraph counterpart–each one of these sections has only one paragraph. The three-paragraph essay, therefore, might be ideal for young writers or those who are currently mastering the English language.
+      </p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">Section 2</button>
+    <div class="accordion-content">
+      <p>Another benefit to the three-paragraph essay could be that it requires you to condense your supporting points into just one, which can be a good exercise. If you had to choose only one point to convince a reader to agree with you, what would it be?</p>
+    </div>
+  </div>
+
+  <div class="accordion">
+    <button class="accordion-header">Section 3</button>
+    <div class="accordion-content">
+      <p>After performing some light prewriting, such as brainstorming or writing an outline, students can move right into composing the essay. While this process is similar across the board for writing academic papers, the three-paragraph essay is unique in that the body will take up less space in the finished product.</p>
+    </div>
+  </div>
+</body>
+</html>
